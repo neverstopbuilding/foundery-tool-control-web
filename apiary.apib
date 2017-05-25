@@ -1,80 +1,32 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://founderytoolcontrolapi.apiblueprint.org/
 
 # foundery-tool-control-api
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Authorization for Foundery Tools
 
-## Questions Collection [/questions]
+## User Authorizations [/authorization_requests]
 
-### List All Questions [GET]
+### Create an Authorization Request [POST]
 
-+ Response 200 (application/json)
+You may create an authorization request using this action. It takes a JSON object
+containing a user's assigned RFID tag, the tool id, and an hardware preshared key.
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
++ user_rfid (number) - The user's RFID tag number.
++ tool_id (number) - A unique tool ID configured on the hardware.
++ secret_key (string) - A preshared access key stored on the hardware.
 
 + Request (application/json)
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+{
+    "user_rfid": 123546845,
+    "tool_id": 245,
+    "auth_key":"2jl34kj23lk4j23k423j"
+}
 
 + Response 201 (application/json)
 
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+{
+    "tool_authorized": true,
+    "power_off_delay_seconds": 360,
+}
